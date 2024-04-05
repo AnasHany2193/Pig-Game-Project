@@ -18,6 +18,9 @@ score1.textContent = 0;
 current1.textContent = 0;
 
 dice.classList.add('hidden');
+
+let scores = [0, 0];
+let activePlayer = 0;
 let currentScore = 0;
 
 // --------- User rolls dice ---------
@@ -32,9 +35,21 @@ btnRoll.addEventListener('click', function () {
   // Check it dice is 1? Swtich player : add score && new score
   if (diceNum === 1) {
     // Swtich player
+    currentScore = 0;
+    document.getElementById(`current--${activePlayer}`).textContent =
+      currentScore;
+
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.remove('player--active');
+    activePlayer = activePlayer === 0 ? 1 : 0;
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.add('player--active');
   } else {
     // Add dice roll to Current Score
     currentScore += diceNum;
-    current0.textContent = currentScore; // Change Later
+    document.getElementById(`current--${activePlayer}`).textContent =
+      currentScore;
   }
 });
