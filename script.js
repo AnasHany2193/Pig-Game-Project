@@ -35,6 +35,6 @@ btnRoll.addEventListener('click', function () {
   } else {
     // Add dice roll to Current Score
     currentScore += diceNum;
-    current0.textContent = currentScore;
+    current0.textContent = currentScore; // Change Later
   }
 });
