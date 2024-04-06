@@ -27,6 +27,7 @@ dice.classList.add('hidden');
 let scores = [0, 0];
 let activePlayer = 0;
 let currentScore = 0;
+let playing = true;
 
 // switch player function
 const swtichPlayer = function () {
@@ -42,44 +43,49 @@ const swtichPlayer = function () {
 
 // --------- User rolls dice ---------
 btnRoll.addEventListener('click', function () {
-  // Generate random dice roll
-  const diceNum = Math.trunc(Math.random() * 6) + 1;
+  if (playing) {
+    // Generate random dice roll
+    const diceNum = Math.trunc(Math.random() * 6) + 1;
 
-  // Display dice roll
-  dice.classList.remove('hidden');
-  dice.src = `dice-${diceNum}.png`;
+    // Display dice roll
+    dice.classList.remove('hidden');
+    dice.src = `dice-${diceNum}.png`;
 
-  // Check it dice is 1? Swtich player : add score && new score
-  if (diceNum === 1) {
-    // Swtich player
-    swtichPlayer();
-  } else {
-    // Add dice roll to Current Score
-    currentScore += diceNum;
-    document.getElementById(`current--${activePlayer}`).textContent =
-      currentScore;
+    // Check it dice is 1? Swtich player : add score && new score
+    if (diceNum === 1) {
+      // Swtich player
+      swtichPlayer();
+    } else {
+      // Add dice roll to Current Score
+      currentScore += diceNum;
+      document.getElementById(`current--${activePlayer}`).textContent =
+        currentScore;
+    }
   }
 });
 
 // --------- User holds dice ---------
 btnHold.addEventListener('click', function () {
-  // add current score to total score
-  scores[activePlayer] += currentScore;
-  console.log(scores[activePlayer]);
-  document.getElementById(`score--${activePlayer}`).textContent =
-    scores[activePlayer];
+  if (playing) {
+    // add current score to total score
+    scores[activePlayer] += currentScore;
+    console.log(scores[activePlayer]);
+    document.getElementById(`score--${activePlayer}`).textContent =
+      scores[activePlayer];
 
-  // check if score >= 100? win player : switch player
-  if (scores[activePlayer] >= 100) {
-    // Current player Wins!
-    document
-      .querySelector(`.player--${activePlayer}`)
-      .classList.add('player--winner');
-    document
-      .querySelector(`.player--${activePlayer}`)
-      .classList.remove('player--active');
-  } else {
-    // Switch player
-    swtichPlayer();
+    // check if score >= 100? win player : switch player
+    if (scores[activePlayer] >= 100) {
+      // Current player Wins!
+      playing = false;
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.add('player--winner');
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.remove('player--active');
+    } else {
+      // Switch player
+      swtichPlayer();
+    }
   }
 });
