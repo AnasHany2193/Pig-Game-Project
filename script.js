@@ -10,24 +10,38 @@ const current1 = document.getElementById('current--1');
 const player0 = document.querySelector('.player--0');
 const player1 = document.querySelector('.player--1');
 
+const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
 const dice = document.querySelector('.dice');
 
-// initial State
-score0.textContent = 0;
-current0.textContent = 0;
+let scores, activePlayer, currentScore, playing;
 
-score1.textContent = 0;
-current1.textContent = 0;
+// initialize function
+const init = function () {
+  scores = [0, 0];
+  activePlayer = 0;
+  currentScore = 0;
+  playing = true;
 
-dice.classList.add('hidden');
+  // player 01
+  score0.textContent = 0;
+  current0.textContent = 0;
+  player0.classList.remove('player--winner');
+  player0.classList.add('player--active');
 
-let scores = [0, 0];
-let activePlayer = 0;
-let currentScore = 0;
-let playing = true;
+  // player 02
+  score1.textContent = 0;
+  current1.textContent = 0;
+  player1.classList.remove('player--winner');
+  player1.classList.remove('player--active');
+
+  dice.classList.add('hidden');
+};
+
+// initial state
+init();
 
 // switch player function
 const swtichPlayer = function () {
@@ -77,6 +91,7 @@ btnHold.addEventListener('click', function () {
     if (scores[activePlayer] >= 100) {
       // Current player Wins!
       playing = false;
+      dice.classList.add('hidden');
       document
         .querySelector(`.player--${activePlayer}`)
         .classList.add('player--winner');
@@ -89,3 +104,6 @@ btnHold.addEventListener('click', function () {
     }
   }
 });
+
+// --------- User resets game ---------
+btnNew.addEventListener('click', init);
